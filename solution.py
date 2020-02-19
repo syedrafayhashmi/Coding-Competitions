@@ -57,7 +57,8 @@ for fl in fileslist:
     final_pizza_types =  0
 
     for pizza in selected_pizzas:
-        wrtfile.append(str(line2i.index(pizza)))
+        if str(line2i.index(pizza)) not in wrtfile:
+            wrtfile.append(str(line2i.index(pizza)))
     l1 = str(len(wrtfile))
     l2 = wrtfile 
     with open(os.path.splitext(fl)[0]+".out", 'w+') as the_file:
