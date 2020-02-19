@@ -1,12 +1,12 @@
 import os
 import csv
-
+fileslist = []
 for file in os.listdir("./"):
     if file.endswith(".in"):
         fileslist.append(file)
 Score = 0
 for fl in fileslist:
-    fileslist = []
+    
     lists = []
     with open(fl, newline = '\n') as data:
         data_reader = csv.reader(data, delimiter=" ")
