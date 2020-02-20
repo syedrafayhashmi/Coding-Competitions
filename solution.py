@@ -12,59 +12,61 @@ for fl in fileslist:
         data_reader = csv.reader(data, delimiter=" ")
         for line in data_reader:
             lists.append(line)
-
-    line1 = lists[0]
-
-    line2 = lists[1]
-
-    line2i = []
-    for x in line2:
-        line2i.append(int(x))
-    
-    line1i = []
-    for x in line1:
-        line1i.append(int(x))
-
-    sumvaluelist = []
-    type_of_pizza  = []
-
-    for i in range(-1,-len(line2i)-1,-1):
-    
-        sumvalue = 0
-        temp_type = []
-        for x in line2i[i::-1]:
-            sumvalue+=x
         
-            if sumvalue == line1i[0]:
-                temp_type.append(x)
-            
-                break
-            if sumvalue > line1i[0]:
-                sumvalue -= x
-            
-                continue
-            if sumvalue < line1i[0]:
-                temp_type.append(x)
-            
-                continue # for less than sum value
-        type_of_pizza.append(temp_type)
-        sumvaluelist.append(sumvalue)
-    print(f"Score: {max(sumvaluelist)}")
-    Score += max(sumvaluelist)
-    index_final_type = sumvaluelist.index(max(sumvaluelist))
-    selected_pizzas  = type_of_pizza[index_final_type][::-1] # for reversing
-    wrtfile = [] 
-    final_pizza_types =  0
+    ms = lists[0][0] # max number of slice we can have
+    ms = int(ms)
 
-    for pizza in selected_pizzas:
-        if str(line2i.index(pizza)) not in wrtfile:
-            wrtfile.append(str(line2i.index(pizza)))
-    l1 = str(len(wrtfile))
-    l2 = wrtfile 
+    tp = lists[0][1] #total number of pizza we can have
+    tp = int(tp)
+
+    w = lists[1]
+    
+
+    #changing string in w to integer
+    for i in range(len(w)):
+        w[i] = int(w[i])    
+
+
+    ind = list()
+    lind = list()
+    los = list()
+
+    for j in range(len(w)):
+        s =0
+        ind = []
+        #print(j)
+        for i in range(len(w)-1-j,-1,-1):
+            #print(i)
+            s += w[i]
+
+            if s < ms:
+                ind.append(i)
+                continue
+    
+            elif s == ms:
+                ind.append(i)
+                break
+        
+            elif s > ms:
+                s -= w[i]
+        #print()        
+        los.append(s)        
+        lind.append(ind)       
+        
+    
+
+    oss = max(los) # it the total number of slice we wil order
+    
+
+    d = los.index(oss)# index of max number of slice
+    
+
+    e =lind[d] #e is final indexes for slices
+    e.sort()
+    
     with open(os.path.splitext(fl)[0]+".out", 'w+') as the_file:
-        the_file.write(l1)
+        the_file.write(str(len(e)))
         the_file.write("\n")
-        for val in l2:
+        for val in e:
             the_file.write(str(val))
             the_file.write(" ")
-print(f"Total Score: {Score}")
